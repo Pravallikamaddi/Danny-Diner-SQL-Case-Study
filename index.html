@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danny Diner SQL Queries</title>
+    <link rel="stylesheet" href="Styles.css">
+</head>
+<body>
+    <header>
+        <h1>Danny Diner SQL Queries and Insights</h1>
+        <p>Insights about customer visits, spending, and menu preferences based on SQL queries</p>
+    </header>
+
+    <section id="queries">
+        <h2>SQL Queries</h2>
+
+        <!-- Query 1: Total Amount Spent -->
+        <div class="query-card">
+            <h3>1. Total Amount Spent by Each Customer</h3>
+            <pre><code>SELECT s.customer_id, SUM(m.price) AS total_sales 
+FROM sales s
+JOIN menu m ON s.product_id = m.product_id
+GROUP BY s.customer_id
+ORDER BY s.customer_id;</code></pre>
+            <p>This query calculates the total amount each customer spent based on the sales and menu data.</p>
+        </div>
+
+        <!-- Query 2: Number of Visits by Each Customer -->
+        <div class="query-card">
+            <h3>2. Number of Days Each Customer Visited</h3>
+            <pre><code>SELECT customer_id, COUNT(DISTINCT order_date) AS visit_count 
+FROM sales 
+GROUP BY customer_id;</code></pre>
+            <p>This query counts the number of days each customer has visited the restaurant.</p>
+        </div>
+
+        <!-- Query 3: First Menu Item Purchased -->
+        <div class="query-card">
+            <h3>3. First Item Purchased by Each Customer</h3>
+            <pre><code>WITH rankitem AS (
+    SELECT s.customer_id, s.order_date, m.product_name, DENSE_RANK() 
+    OVER(PARTITION BY s.customer_id ORDER BY s.order_date) AS rank
+    FROM sales s 
+    JOIN menu m ON s.product_id = m.product_id
+)
+SELECT customer_id, product_name 
+FROM rankitem 
+WHERE rank = 1 
+GROUP BY customer_id, product_name;</code></pre>
+            <p>This query shows the first menu item purchased by each customer.</p>
+        </div>
+
+        <!-- Query 4: Most Purchased Item -->
+        <div class="query-card">
+            <h3>4. Most Purchased Item on the Menu</h3>
+            <pre><code>SELECT m.product_name, COUNT(s.product_id) AS total_sales 
+FROM menu m
+JOIN sales s ON m.product_id = s.product_id
+GROUP BY m.product_name 
+ORDER BY total_sales DESC 
+LIMIT 1;</code></pre>
+            <p>This query identifies the most purchased item on the menu and how many times it was purchased.</p>
+        </div>
+
+        <!-- Query 5: Most Popular Item per Customer -->
+        <div class="query-card">
+            <h3>5. Most Popular Item for Each Customer</h3>
+            <pre><code>WITH rankmenu AS (
+    SELECT s.customer_id, m.product_name, COUNT(s.product_id) AS order_count,
+    DENSE_RANK() OVER(PARTITION BY s.customer_id ORDER BY COUNT(s.product_id) DESC) AS rank
+    FROM sales s
+    JOIN menu m ON s.product_id = m.product_id
+    GROUP BY s.customer_id, m.product_name
+)
+SELECT customer_id, product_name, order_count
+FROM rankmenu
+WHERE rank = 1;</code></pre>
+            <p>This query identifies the most popular item for each customer based on the number of orders.</p>
+        </div>
+
+        <!-- Query 6: First Item Purchased After Membership -->
+        <div class="query-card">
+            <h3>6. Item Purchased First After Customer Became a Member</h3>
+            <pre><code>WITH joinmem AS (
+    SELECT me.customer_id, m.product_name, s.order_date, 
+    ROW_NUMBER() OVER(PARTITION BY me.customer_id ORDER BY s.order_date) AS rank
+    FROM members me
+    JOIN sales s ON me.customer_id = s.customer_id
+    JOIN menu m ON s.product_id = m.product_id
+    WHERE me.join_date < s.order_date
+)
+SELECT customer_id, product_name 
+FROM joinmem 
+WHERE rank = 1;</code></pre>
+            <p>This query identifies the first item each customer purchased after becoming a member.</p>
+        </div>
+
+        <!-- Query 7: Item Purchased Just Before Membership -->
+        <div class="query-card">
+            <h3>7. Item Purchased Just Before Membership</h3>
+            <pre><code>WITH joinmem AS (
+    SELECT me.customer_id, m.product_name, s.order_date, 
+    ROW_NUMBER() OVER(PARTITION BY me.customer_id ORDER BY s.order_date DESC) AS rank
+    FROM members me
+    JOIN sales s ON me.customer_id = s.customer_id
+    JOIN menu m ON s.product_id = m.product_id
+    WHERE me.join_date > s.order_date
+)
+SELECT customer_id, product_name 
+FROM joinmem 
+WHERE rank = 1;</code></pre>
+            <p>This query finds out what the last item was that a customer purchased just before they became a member.</p>
+        </div>
+
+        <!-- Query 8: Total Items and Amount Spent Before Membership -->
+        <div class="query-card">
+            <h3>8. Total Items and Amount Spent Before Membership</h3>
+            <pre><code>SELECT me.customer_id, COUNT(s.product_id) AS total_items, 
+SUM(m.price) AS total_amount 
+FROM members me 
+JOIN sales s ON me.customer_id = s.customer_id 
+JOIN menu m ON s.product_id = m.product_id 
+WHERE s.order_date < me.join_date 
+GROUP BY me.customer_id;</code></pre>
+            <p>This query calculates the total items and amount spent for each member before they became a member.</p>
+        </div>
+
+        <!-- Query 9: Total Points for Each Customer -->
+        <div class="query-card">
+            <h3>9. Points Calculation (10 Points per $1 Spent, Sushi has 2x Multiplier)</h3>
+            <pre><code>WITH points AS (
+    SELECT product_id, 
+    CASE WHEN product_name = 'sushi' THEN price * 20 ELSE price * 10 END AS gain 
+    FROM menu
+)
+SELECT c.customer_id, SUM(points.gain) AS total_points
+FROM sales c
+JOIN points ON c.product_id = points.product_id
+GROUP BY c.customer_id
+ORDER BY c.customer_id;</code></pre>
+            <p>This query calculates how many points each customer has based on their purchases, with a 2x multiplier for sushi.</p>
+        </div>
+
+        <!-- Query 10: Points Calculation for First Week After Joining -->
+        <div class="query-card">
+            <h3>10. Points for the First Week After Membership</h3>
+            <pre><code>WITH dates_cte AS (
+    SELECT customer_id, join_date, join_date + 6 AS valid_date, date('2021-01-31') AS last_date
+    FROM dannys_diner.members
+)
+SELECT sales.customer_id, 
+SUM(CASE
+    WHEN menu.product_name = 'sushi' THEN 2 * 10 * menu.price
+    WHEN sales.order_date BETWEEN dates.join_date AND dates.valid_date THEN 2 * 10 * menu.price
+    ELSE 10 * menu.price END) AS points
+FROM dannys_diner.sales
+JOIN dates_cte AS dates ON sales.customer_id = dates.customer_id 
+AND sales.order_date <= dates.last_date
+JOIN dannys_diner.menu ON sales.product_id = menu.product_id
+GROUP BY sales.customer_id;</code></pre>
+            <p>This query calculates the points each customer has at the end of January 2021, factoring in a 2x multiplier for the first week after joining.</p>
+        </div>
+
+    </section>
+
+    <section id="insights">
+        <h2>Business Insights</h2>
+        <p>The SQL queries above provide valuable insights into customer behavior, spending, and preferences. Danny can use this information to offer personalized experiences, enhance the loyalty program, and improve operational decisions.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Danny Diner SQL Showcase solved by PRAVALLIKA MADDI!</p>
+    </footer>
+
+    <script src="script.js"></script> <!-- Optional for interactive behavior -->
+</body>
+</html>
