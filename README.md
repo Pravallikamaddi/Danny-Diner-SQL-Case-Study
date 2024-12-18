@@ -31,6 +31,50 @@ Danny has shared three key datasets for this case study:
 
 The goal is to write fully functioning SQL queries based on these datasets to help Danny analyze and solve the key business questions he has.
 
+
+### Example Datasets
+
+#### 1. **sales** Table
+
+The **sales** table captures customer-level purchases, the corresponding `order_date`, and the `product_id` that maps to items on the menu.
+
+| customer_id | order_date | product_id |
+|-------------|------------|------------|
+| A           | 2021-01-01 | 1          |
+| A           | 2021-01-01 | 2          |
+| A           | 2021-01-07 | 2          |
+| A           | 2021-01-10 | 3          |
+| A           | 2021-01-11 | 3          |
+| A           | 2021-01-11 | 3          |
+| B           | 2021-01-01 | 2          |
+| B           | 2021-01-02 | 2          |
+| B           | 2021-01-04 | 1          |
+| B           | 2021-01-11 | 1          |
+| B           | 2021-01-16 | 3          |
+| B           | 2021-02-01 | 3          |
+| C           | 2021-01-01 | 3          |
+| C           | 2021-01-01 | 3          |
+| C           | 2021-01-07 | 3          |
+
+#### 2. **menu** Table
+
+The **menu** table associates `product_id` with product names and their prices. This data is used to relate purchases in the **sales** table to the items ordered and their costs.
+
+| product_id | product_name | price |
+|------------|--------------|-------|
+| 1          | sushi        | 10    |
+| 2          | curry        | 15    |
+| 3          | ramen        | 12    |
+
+#### 3. **members** Table
+
+The **members** table tracks when each customer joined the loyalty program.
+
+| customer_id | join_date  |
+|-------------|------------|
+| A           | 2021-01-07 |
+| B           | 2021-01-09 |
+
 ## Project Overview
 
 In the first few months, Danny has been collecting data through a loyalty program that captures customer behavior and sales trends. The project involves analyzing this data to:
