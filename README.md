@@ -214,10 +214,15 @@ ORDER BY s.customer_id;
 | C           | 2021-01-07  | ramen        | 12    | N      | null    |
 
 
+## For Bonus Queries Solutions:
+
+[Click Here](https://pravallikamaddi.github.io/Danny-Diner-SQL-Case-Study/Bonus.html)
 
 ## Conclusion:
 **!really hope you enjoyed this fun little case study - it definitely was fun for me to create!**
+
 ## FOR ALL QUERIES (Solutions):
+
 [Click Here](https://pravallikamaddi.github.io/Danny-Diner-SQL-Case-Study/)
 
 
