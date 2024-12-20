@@ -167,6 +167,7 @@ ORDER BY s.customer_id;
 
 ## View all the Queries:
 
-(Click here)[ https://pravallikamaddi.github.io/Danny-Diner-SQL-Case-Study/]
+[Click here](https://pravallikamaddi.github.io/Danny-Diner-SQL-Case-Study/)
+
 
 
