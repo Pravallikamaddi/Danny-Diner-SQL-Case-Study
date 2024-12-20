@@ -166,9 +166,11 @@ GROUP BY s.customer_id
 ORDER BY s.customer_id;
 ```
 ## Bonus Questions:
+
 1.**Join All The Things**:
 -The following questions are related creating basic data tables that Danny and his team can use to quickly derive insights without needing to join the underlying tables using SQL.
-  -Recreate the following table output using the available data:
+
+  -Recreate the following table output using the available data.
 
 | Customer ID | Order Date   | Product Name | Price | Member |
 |-------------|--------------|--------------|-------|--------|
@@ -190,6 +192,7 @@ ORDER BY s.customer_id;
 
 
 2.**Rank All The Things**:
+
 -Danny also requires further information about the ranking of customer products, but he purposely does not need the ranking for non-member purchases so he expects null ranking values for the records when customers are not yet part of the loyalty program.
 
 | Customer ID | Order Date   | Product Name | Price | Member | Ranking |
