@@ -40,21 +40,20 @@ CREATE TABLE join_all_things AS
   	dannys_diner.menu AS t3 
   ON
   	t1.product_id = t3.product_id
-);</code></pre>
+);
+  SELECT 
+  *
+FROM
+  join_all_things
+ORDER BY
+  customer_id, order_date, product_name;</code></pre>
             <p>This query tells that the customer is that platform member or not according to the order_date and registration_date from the data.</p>
         </div>
 
         <!-- Query 2: Rank All The Things -->
         <div class="query-card">
             <h3>2.Rank</h3>
-            <pre><code>SELECT 
-  *
-FROM
-  join_all_things
-ORDER BY
-  customer_id, order_date, product_name;
-  
-select *,case when member ='Y' then dense_rank() over(partition by customer_id,member  order by order_date) end as rankn from join_all_things;</code></pre>
+            <pre><code>select *,case when member ='Y' then dense_rank() over(partition by customer_id,member  order by order_date) end as rankn from join_all_things;</code></pre>
             <p>This query gives the rank accordingly all things.</p>
         </div>
 </section>
