@@ -164,4 +164,9 @@ FROM sales s
 JOIN menu m ON s.product_id = m.product_id 
 GROUP BY s.customer_id 
 ORDER BY s.customer_id;
-[Click Here](ttps://pravallikamaddi.github.io/Danny-Diner-SQL-Case-Study/)
+
+## View all the Queries:
+
+(Click here)[ https://pravallikamaddi.github.io/Danny-Diner-SQL-Case-Study/]
+
+
