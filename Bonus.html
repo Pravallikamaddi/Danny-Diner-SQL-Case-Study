@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danny Diner SQL Queries</title>
+    <link rel="stylesheet" href="Styles.css">
+</head>
+<body>
+    <header>
+        <h1>Danny Diner SQL Queries and Insights</h1>
+        <p>Insights about customer visits, spending, and menu preferences based on SQL queries</p>
+    </header>
+
+    <section id="queries">
+        <h2> Bonus SQL Queries</h2>
+
+        <!-- Query 1:The following query are related creating basic data tables that Danny and his team can use to quickly derive insights without needing to join the underlying tables using SQL. -->
+        <div class="query-card">
+            <h3>Bonus Query</h3>
+            <pre><code>DROP TABLE IF EXISTS join_all_things;
+CREATE TABLE join_all_things AS 
+(
+  SELECT 
+  	t1.customer_id,
+  	t1.order_date,
+  	t3.product_name,
+  	t3.price,
+  	CASE
+  		WHEN t1.order_date < t2.join_date OR t2.join_date IS NULL THEN 'N'
+  		WHEN t1.order_date >= t2.join_date THEN 'Y'
+  	END AS member
+  FROM
+  	dannys_diner.sales AS t1
+  LEFT JOIN
+  	dannys_diner.members AS t2
+  ON
+  	t1.customer_id = t2.customer_id
+  JOIN
+  	dannys_diner.menu AS t3 
+  ON
+  	t1.product_id = t3.product_id
+);</code></pre>
+            <p>This query tells that the customer is that platform member or not according to the order_date and registration_date from the data.</p>
+        </div>
+
+        <!-- Query 2: Rank All The Things -->
+        <div class="query-card">
+            <h3>2.Rank</h3>
+            <pre><code>SELECT 
+  *
+FROM
+  join_all_things
+ORDER BY
+  customer_id, order_date, product_name;
+  
+select *,case when member ='Y' then dense_rank() over(partition by customer_id,member  order by order_date) end as rankn from join_all_things;</code></pre>
+            <p>This query gives the rank accordingly all things.</p>
+        </div>
+</section>
+
+    <section id="insights">
+        <h2>Business Insights</h2>
+        <p>The SQL queries above provide valuable insights into customer behavior, spending, and preferences. Danny can use this information to offer personalized experiences, enhance the loyalty program, and improve operational decisions.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Danny Diner SQL Showcase solved by PRAVALLIKA MADDI!</p>
+    </footer>
+
+    <script src="script.js"></script> <!-- Optional for interactive behavior -->
+</body>
+</html>
