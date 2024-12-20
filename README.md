@@ -166,9 +166,9 @@ GROUP BY s.customer_id
 ORDER BY s.customer_id;
 ```
 ## Bonus Questions:
--Join All The Things-
-1.The following questions are related creating basic data tables that Danny and his team can use to quickly derive insights without needing to join the underlying tables using SQL.
-Recreate the following table output using the available data:
+**Join All The Things**:
+ -1.The following questions are related creating basic data tables that Danny and his team can use to quickly derive insights without needing to join the underlying tables using SQL.
+ -Recreate the following table output using the available data:
 
 | Customer ID | Order Date   | Product Name | Price | Member |
 |-------------|--------------|--------------|-------|--------|
@@ -189,8 +189,8 @@ Recreate the following table output using the available data:
 | C           | 2021-01-07  | ramen        | 12    | N      |
 
 
--Rank All The Things-
-2.Danny also requires further information about the ranking of customer products, but he purposely does not need the ranking for non-member purchases so he expects null ranking values for the records when customers are not yet part of the loyalty program.
+**Rank All The Things**:
+ -2.Danny also requires further information about the ranking of customer products, but he purposely does not need the ranking for non-member purchases so he expects null ranking values for the records when customers are not yet part of the loyalty program.
 
 | Customer ID | Order Date   | Product Name | Price | Member | Ranking |
 |-------------|--------------|--------------|-------|--------|---------|
@@ -213,7 +213,7 @@ Recreate the following table output using the available data:
 
 
 ## Conclusion:
--I really hope you enjoyed this fun little case study - it definitely was fun for me to create!-
+**!really hope you enjoyed this fun little case study - it definitely was fun for me to create!**
 ## FOR ALL QUERIES (Solutions):
 [Click Here](https://pravallikamaddi.github.io/Danny-Diner-SQL-Case-Study/)
 
