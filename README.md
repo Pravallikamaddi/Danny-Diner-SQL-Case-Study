@@ -166,8 +166,8 @@ GROUP BY s.customer_id
 ORDER BY s.customer_id;
 
 ## View all the Queries:
+<a href="https://pravallikamaddi.github.io/Danny-Diner-SQL-Case-Study/" target="_blank">Click here</a>
 
-[Click here](https://pravallikamaddi.github.io/Danny-Diner-SQL-Case-Study/)
 
 
 
